@@ -1,0 +1,20 @@
+<svg width="250" height="200" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="202" width="252" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Hangman</title>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="l1" y2="44" x2="35" y1="165" x1="34.5" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="l2" y2="43.5" x2="101.5" y1="43.5" x1="34.5" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="l3" y2="58.5" x2="95.5" y1="43.5" x1="95.5" stroke-width="1.5" stroke="#000" fill="none"/>
+  <ellipse stroke="#000" ry="10.5" rx="10.5" id="l4" cy="68" cx="96" stroke-width="1.5" fill="#fff"/>
+  <line stroke-linecap="null" stroke-linejoin="null" id="l5" y2="112.5" x2="96.5" y1="80.5" x1="96.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line stroke-linecap="null" stroke-linejoin="null" id="l6" y2="96.5" x2="120.5" y1="87.5" x1="78.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line stroke-linecap="null" stroke-linejoin="null" id="l7" y2="142.5" x2="83.5" y1="112.5" x1="96.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line stroke-linecap="null" stroke-linejoin="null" id="l8" y2="154.5" x2="107.5" y1="113.5" x1="96.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
+ </g>
+</svg>

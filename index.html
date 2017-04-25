@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1 id="title">Hangman Game</h1>
+    <p id="instructions">Use the alphabet below to guess the word.</p>
+    
+    <div id="alphabetButtons"></div>
+    <div id="word"></div>
+    
+    <div id="languageButtons">
+        <img src="images/united-kingdom-flag-icon.png" class="languageButton">
+        <img src="images/spain-flat-icon.png" class="languageButton">
+        <img src="images/germany-flag-icon.png" class="languageButton">
+    </div>
+    
+    <div id="hangmanDrawingCanvas">
+        <svg id="hangmanSVGImage" width="250" height="200" xmlns="http://www.w3.org/2000/svg">
+            <line id="l1" y2="44" x2="35" y1="165" x1="34.5" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+  <line id="l2" y2="43.5" x2="101.5" y1="43.5" x1="34.5" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+  <line id="l3" y2="58.5" x2="95.5" y1="43.5" x1="95.5" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+  <ellipse stroke="#000" ry="10.5" rx="10.5" id="l4" cy="68" cx="96" stroke-width="1.5" fill="#fff" visibility="hidden"/>
+  <line id="l5" y2="112.5" x2="96.5" y1="80.5" x1="96.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+  <line id="l6" y2="96.5" x2="120.5" y1="87.5" x1="78.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+  <line id="l7" y2="142.5" x2="83.5" y1="112.5" x1="96.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+  <line id="l8" y2="154.5" x2="107.5" y1="113.5" x1="96.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" visibility="hidden"/>
+            
+            Sorry, your browser does not support inline SVG.
+        </svg>
+        
+        <div id="livesRemeaning">
+
+            <p><span id="livesRemeaningNumber">8</span>
+            <img src="images/heart-icon.png">
+                </p>
+        </div>
+    </div>
+    
+    <button id="newGameButton" onclick="newGame()">New Game</button>
+    <div id="disableOption"><input type="checkbox" onclick="askForConfirmation(this)">
+        <span id="disableOptionText">
+            Do not ask for confirm when the game is about to be reset.
+        </span></div>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>

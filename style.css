@@ -1,0 +1,62 @@
+body {
+    font-family: Arial;
+    font-size: 16px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1{
+    font-size: 2em;
+    padding-top: 1.5em;
+}
+
+#alphabetButtons {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+#alphabetButtons button{
+    margin: 2px;
+}
+
+#alphabetButtons button:hover{
+    color: grey;
+}
+
+#languageButtons{
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.character{
+    padding: 10px;
+}
+
+#word {
+    margin: 20px;
+}
+
+#disableOption{
+    font-size: 0.8em;
+    margin: 5px;
+}
+
+#hangmanDrawingCanvas{
+    position: relative;
+    width: 250px;
+    height: 200px;
+    margin: 20px auto;
+    border: ridge 1px;
+}
+
+#livesRemeaning{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 15px;
+}
+
