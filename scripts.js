@@ -260,7 +260,7 @@ function charSelected(event){
 
 function wrongLetter(){
     stateObejct.decrementCurrentLives();
-    $currentLivesContainer.text = stateObejct.getCurrentLives();
+    $currentLivesContainer.html(stateObejct.getCurrentLives());
             
     //Draw line
     var $line = $("#l"+stateObejct.getNextLine());
