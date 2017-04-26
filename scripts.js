@@ -2,7 +2,7 @@
 
 //**Falta por implementar: 
 // 1) Comportamiento ante tildes
-//    - No hay palabras con tilde
+//    - No hay palabras con tilde  << SELECTED
 //    - Se añaden las letras con tilde a la lista de botones
 //    - Se comprueba para cada letra si es un carácter especial
 // 2) El usuario puede modiviar las vidas
@@ -22,7 +22,7 @@ var vocalU = "úùüû";
 var countries = [[
     "Spain", "England", "France", "Germany", "Italy", "United States", "Canada", "Venezuela", "Chile", "Argentina", "Greece", "Australia", "Uruguay", "Poland", "Russia", "China", "Japan", "Ukraine", "Morocco", "Iceland", "Ireland", "Finland", "Norway", "Holland", "Israel", "Switzerland", "Sweden"
 ],[
-    "España", "Inglaterra", "Francia", "Alemania", "Italia", "Estados Unidos", "Canadá","Venezuela", "Chile", "Argentina", "Grecia", "Australia", "Uruguay", "Polonia", "Rusia", "China", "Japón", "Ucrania", "Marruecos", "Islandia", "Irlanda", "Finlandia", "Noruega", "Holanda", "Israel", "Suiza", "Suecia"
+    "España", "Inglaterra", "Francia", "Alemania", "Italia", "Estados Unidos", "Canada","Venezuela", "Chile", "Argentina", "Grecia", "Australia", "Uruguay", "Polonia", "Rusia", "China", "Japon", "Ucrania", "Marruecos", "Islandia", "Irlanda", "Finlandia", "Noruega", "Holanda", "Israel", "Suiza", "Suecia"
 ],[
    "Spanien", "England", "Frankreich", "Deutschland", "Italien", "Vereinigte Staaten", "Kanada", "Venezuela", "Chile", "Argentinien", "Griechenland", "Australien", "Uruguay", "Polen", "Russland", "China", "Japan", "Ukraine", "Marokko", "Island", "Irland", "Finnland", "Norwegen", "Holland", "Israel", "Schweiz", "Schweden"
 ]];
@@ -37,24 +37,25 @@ var askConfirmText = ["Do not ask for confirm when the game is about to be reset
 
 var newGameButtonText = ["New game", "Nueva partida", "Neues Spiel"];
 
-
+/*
 var selectedChars = [];
 var charCount = 0;
 var word = null;
-var initalLives = 8; //Can be changed by the user >> Reset game
+var initialLives = 8; //Can be changed by the user >> Reset game
 var currentLives;
 var nextLine;
 var resetFlag = true;
 var askConfirmation = true;
 var gameFinished = false;
+*/
 
-/*
 var stateObejct = function privateData(){
-    var state = {
+    return {
+        state: {
         selectedChars: [],     //Characters selected in the current game
         charCount: 0,          //Number of characters guessed
         word: null,            //Current word to guess
-        initalLives: 8,        //Initial lives
+        initialLives: 8,        //Initial lives
         currentLives: null,    //Current lives
         nextLine: 1,           //Next line of the hangman to draw
         resetFlag: true,       //Only restes if resetFlag == true
@@ -62,124 +63,125 @@ var stateObejct = function privateData(){
         gameFinished: false,   //Indicates if the game is finished or not
         defeats: 0,            //Number of defeats till current moment
         victories: 0           //Number of victories till current moment
-    };
-    
-    return {
+    },
+        
         getState: function(){
-            return state;
+            return this.state;
         },
         setState: function(newState){
-            state = newState;
+            this.state = newState;
         },
         
         //Selected chars
         getSelectedChars: function(){
-            return selectedChars;
+            return this.state.selectedChars;
         },
         setSelectedChars: function(selectedCharsArray){
-            selectedChars = selectedCharsArray;
+            this.state.selectedChars = selectedCharsArray;
         },
         addSelectedChar: function(selectedChar){
-            selectedChars.push(selectedChar);
+            this.state.selectedChars.push(selectedChar);
+        },
+        resetSelectedChars: function(){
+            this.state.selectedChars = [];
         },
         
         //Char count
         getCharCount: function(){
-            return charCount;
+            return this.state.charCount;
         },
         incrementCharCount: function(){
-            charCount++;
+            this.state.charCount++;
         },
         resetCharCount: function(){
-            charCount = 0;
+            this.state.charCount = 0;
         },
         
         //Word
         getWord: function(){
-            return word;
+            return this.state.word;
         },  
         setWord: function(newWord){
-            word = newWord;
+            this.state.word = newWord;
         },
         
         //Initial lives
         getInitialLives: function(){
-            return initalLives;
+            return this.state.initialLives;
         },  
         setInitialLives: function(lives){
-            initialLives = lives;
+            this.state.initialLives = lives;
         },
         
         //Current lives
         getCurrentLives: function(){
-            return currentLives;
+            return this.state.currentLives;
         },  
         incrementCurrentLives: function(){
-            currentLives++;
+            this.state.currentLives++;
         },
         decrementCurrentLives: function(){
-            currentLives--;
+            this.state.currentLives--;
         },
         resetCurrentLives: function(){
-            currentLives = initialLives;
+            this.state.currentLives = this.state.initialLives;
         },
         
         //Next line
         getNextLine: function(){
-            return nextLine;
+            return this.state.nextLine;
         },  
         incrementNexLine: function(){
-            nextLine++;
+            this.state.nextLine++;
         },
         decrementNexLine: function(){
-            nextLine--;
+            this.state.nextLine--;
         },
         resetNexLine: function(){
-            nextLine = 1;
+            this.state.nextLine = 1;
         },
         
         //Reset flag
         getResetFlag: function(){
-            return resetFlag;
+            return this.state.resetFlag;
         },
         setResetFlag: function(resetFlagState){
-            resetFlag = resetFlagState;
+            this.state.resetFlag = resetFlagState;
         },
         
         //Ask confirmation
         getAskConfirmation: function(){
-            return askConfirmation;
+            return this.state.askConfirmation;
         },
         setAskConfirmation: function(askConfirmationValue){
-            askConfirmation = askConfirmationValue;
+            this.state.askConfirmation = askConfirmationValue;
         },
         
         //Game finished
         getGameFinished: function(){
-            return gameFinished;
+            return this.state.gameFinished;
         },
         setGameFinished: function(gameFinishedValue){
-            gameFinished = gameFinishedValue;
+            this.state.gameFinished = gameFinishedValue;
         },
         
         //Defeats
         getDefeats: function(){
-            return defeats;
+            return this.state.defeats;
         },
         incrementDefeats: function(){
-            defeats++;
+            this.state.defeats++;
         },
         
         //Victories
         getVictories: function(){
-            return victories;
+            return this.state.victories;
         },
         incrementVictories: function(){
-            victories++;
+            this.state.victories++;
         }
     };
 }();
-*/
 
 //References
 var wordContainer;
@@ -234,21 +236,21 @@ function createButtons(createButtonFunction){
 }
 
 function deleteButtons(){
-    var buttonsContainer = document.getElementById("alphabetButtons");
-    while (buttonsContainer.firstChild) {
-        buttonsContainer.removeChild(buttonsContainer.firstChild);
+    while (alphabetContainer.firstChild) {
+        alphabetContainer.removeChild(alphabetContainer.firstChild);
     }
 }
 
 function charSelected(event){
-    if (!gameFinished){
+    if (!stateObejct.getGameFinished()){
         var selectedChar = event.target.innerHTML;
-        selectedChars.push(selectedChar);
-        console.log(selectedChars);
+        //selectedChars.push(selectedChar);
+        stateObejct.addSelectedChar(selectedChar);
+        console.log(stateObejct.getSelectedChars());
         //Deshabilitar botón pulsado
         event.target.setAttribute("disabled", true);
    
-        var indexOfCharacter = word.indexOf(selectedChar);    
+        var indexOfCharacter = stateObejct.getWord().indexOf(selectedChar);    
         if (indexOfCharacter == -1){
             wrongLetter();
         } else {
@@ -258,50 +260,51 @@ function charSelected(event){
 }
 
 function wrongLetter(){
-    currentLives--;
-    currentLivesContainer.innerHTML = currentLives;
+    stateObejct.decrementCurrentLives();
+    currentLivesContainer.innerHTML = stateObejct.getCurrentLives();
             
     //Draw line
-    var line = document.getElementById("l"+nextLine);
+    var line = document.getElementById("l"+stateObejct.getNextLine());
     line.style.visibility ="visible";
-    nextLine++;
+    stateObejct.incrementNexLine();
 
-    if (currentLives == 0){
-        lose("OH, YOU LOSE");
+    if (stateObejct.getCurrentLives() == 0){
+        lose();
     }
 }
 
 function rightLetter(selectedChar, indexOfCharacter){
-    charCount++;
+    stateObejct.incrementCharCount();
     var wordContainerElements = wordContainer.children;
     wordContainerElements[indexOfCharacter].innerHTML = selectedChar;
+    var word = stateObejct.getWord();
     for (var i = indexOfCharacter+1; i < wordContainerElements.length; i++){
         if(word[i] == selectedChar){
             wordContainerElements[i].innerHTML = selectedChar;
-            charCount++;
+            stateObejct.incrementCharCount();
         }
     }
-    if (charCount == word.length){
-        win("YOU WIN!!!");
+    if (stateObejct.getCharCount() == stateObejct.getWord().length){
+        win();
     }
 }
 
 function endGame(message){
     console.log(message);
     alert(message);
-    gameFinished = true;
+    stateObejct.setGameFinished(true);
 }
 
-function lose(message){
+function lose(){
     //lose
-    //defeats++;
-    endGame(message);
+    stateObejct.incrementDefeats();
+    endGame("OH, YOU LOSE");
 }
 
-function win(message){
+function win(){
     //win
-    //victories++;
-    endGame(message);
+    stateObejct.incrementVictories();
+    endGame("YOU WIN!!!");
 }
 
 function refreshLanguage(){
@@ -323,18 +326,15 @@ function updateText(){
     newGameButton.innerHTML = newGameButtonText[language];
 }
 
-function resetScore(){
-    /*var state = stateObejct.getState();
-    console.log(state);*/
-    
+function resetScore(){ 
     //Resets score
     hideHangmanLines();
-    nextLine = 1;
-    currentLives = initalLives;
-    currentLivesContainer.innerHTML = initalLives;
-    if (word != null) activeButtons();
-    selectedChars = [];
-    gameFinished = false;
+    stateObejct.resetNexLine();
+    stateObejct.resetCurrentLives();
+    currentLivesContainer.innerHTML = stateObejct.getInitialLives();
+    if (stateObejct.getWord() != null) activeButtons();
+    stateObejct.resetSelectedChars();
+    stateObejct.setGameFinished(false);
 }
 
 function activeButtons(){
@@ -345,6 +345,7 @@ function activeButtons(){
 }
 
 function hideHangmanLines(){
+    var nextLine = stateObejct.getNextLine();
     if (nextLine > 1){
         for(var i = 1; i < nextLine; i++){
             var line = document.getElementById("l"+i);
@@ -357,44 +358,38 @@ function changeLanguage(event){
     var languageIndex = event.target.getAttribute("languageIndex");
     
     if (language != languageIndex){
-        if (askConfirmation){
+        if (stateObejct.getAskConfirmation()){
             checkConfirmation();
         }
-        if (resetFlag) {
+        if (stateObejct.getResetFlag()) {
             language = languageIndex;
             refreshLanguage();
-            var initialConfirmation = askConfirmation;
-            askConfirmation = false;
+            var initialConfirmation = stateObejct.getAskConfirmation();
+            stateObejct.setAskConfirmation (false);
             newGame();
-            askConfirmation = initialConfirmation;
+            stateObejct.setAskConfirmation (initialConfirmation);
         }
     }
 }
 
 function newGame() {
-    if (askConfirmation){
+    if (stateObejct.getAskConfirmation()){
         checkConfirmation();
     }
-    /*
-    if (stateObejct.getState().askConfirmation){
-        checkConfirmation();
-    }
-    */
-    if (resetFlag) {
+    
+    if (stateObejct.getResetFlag()) {
         //Delete previous word elements
         while (wordContainer.firstChild) {
-            wordContainer.removeChild(
-                wordContainer.firstChild);
+            wordContainer.removeChild(wordContainer.firstChild);
         }
         
         //Get the new word
         var randomIndex = Math.floor((Math.random() * countries[language].length));
-        word = countries[language][randomIndex];
-        word = word.toUpperCase();
-        charCount = 0;
-        createHiddenWord(word.toUpperCase());
-        
-        
+        var word = countries[language][randomIndex].toUpperCase();
+        stateObejct.setWord(word);
+        stateObejct.resetCharCount();
+        createHiddenWord(word);
+               
         //Reset score
         resetScore();
     }
@@ -404,14 +399,14 @@ function newGame() {
 function createHiddenWord(word){
     var character;
     var wordText = "_";
-    
+    var word = stateObejct.getWord();
     if (word.length > 0){
         for (var i in word){
             character = document.createElement('span');
             character.className = "character";
             if (word[i] == ' ' || word[i] == '-') {
                 character.innerHTML = word[i];
-                charCount++;
+                stateObejct.incrementCharCount();
             } else
                 character.innerHTML = wordText;
             wordContainer.appendChild(character);
@@ -421,14 +416,13 @@ function createHiddenWord(word){
 }
 
 function checkConfirmation(){
-    if (word != null)
-        resetFlag = confirm("You are about to reset the game. Continue?");
-    else resetFlag = true;
+    if (stateObejct.getWord() != null)
+        stateObejct.setResetFlag(confirm("You are about to reset the game. Continue?"));
+    else stateObejct.setResetFlag(true);
 }
 
 function askForConfirmation(check){
-    askConfirmation = !check.checked;
-    console.log(askConfirmation);
+    stateObejct.setAskConfirmation(!stateObejct.getAskConfirmation());
 }
 
 init();
