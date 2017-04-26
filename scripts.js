@@ -184,49 +184,41 @@ var stateObejct = function privateData(){
 }();
 
 //References
-var wordContainer;
-var alphabetContainer;
-var currentLivesContainer;
+var $wordContainer;
+var $alphabetContainer;
+var $currentLivesContainer;
 
 //Text elements references
-var title;
-var instructions;
-var newButton;
-var disableOption;
+var $title;
+var $instructions;
+var $newGameButton;
+var $disableOption;
 
 function init(){
     initTextElementsReferences();
     addLanguageButtonsListeners();
-    alphabetContainer = document.getElementById("alphabetButtons");
+    $alphabetContainer = $("#alphabetButtons");
     createButtons(createButtonWithLetter);
-    wordContainer = document.getElementById("word");
-    currentLivesContainer = document.getElementById("livesRemeaningNumber");
+    $wordContainer = $("#word");
+    $currentLivesContainer = $("#livesRemeaningNumber");
     newGame();
 }
 
 function initTextElementsReferences(){
-    title = document.getElementById("title");
-    instructions = document.getElementById("instructions");
-    disableOption = document.getElementById("disableOptionText");
-    newButton = document.getElementById("newGameButton");
+    $title = $("#title");
+    $instructions = $("#instructions");
+    $disableOption = $("#disableOptionText");
+    $newGameButton = $("#newGameButton");
 }
 
 function addLanguageButtonsListeners(){
-    var languageButtons = document.getElementsByClassName("languageButton");
-    for (var i=0; i < languageButtons.length; i++){
-         languageButtons[i].addEventListener("click", changeLanguage);
-        languageButtons[i].setAttribute("languageIndex", i);
-    }
+    var $languageButtons = $(".languageButton");
+    var i = 0;
+    $languageButtons.each(function(){
+        $languageButtons.eq(i).on('click', changeLanguage);
+        $languageButtons.eq(i).attr("languageIndex", i++);
+    });
 }
-
-function createButtonWithLetter(letter){
-    var btn = document.createElement("BUTTON");
-    var text = document.createTextNode(letter);
-    btn.appendChild(text);
-    btn.addEventListener("click", charSelected);
-    alphabetContainer.appendChild(btn);
-}
-
 
 function createButtons(createButtonFunction){
     var alphabet = alphabets[language];
@@ -235,18 +227,25 @@ function createButtons(createButtonFunction){
     }
 }
 
+function createButtonWithLetter(letter){
+    var $btn = $("<button>");
+    $btn.text(letter);
+    $btn.on('click', charSelected);
+    $alphabetContainer.append($btn);
+}
+
 function deleteButtons(){
-    while (alphabetContainer.firstChild) {
-        alphabetContainer.removeChild(alphabetContainer.firstChild);
-    }
+    $alphabetContainer.empty();
 }
 
 function charSelected(event){
     if (!stateObejct.getGameFinished()){
         var selectedChar = event.target.innerHTML;
-        //selectedChars.push(selectedChar);
         stateObejct.addSelectedChar(selectedChar);
+        
+        //Mostrar por consola los caracteres que se han pulsado
         console.log(stateObejct.getSelectedChars());
+        
         //Deshabilitar botón pulsado
         event.target.setAttribute("disabled", true);
    
@@ -261,11 +260,11 @@ function charSelected(event){
 
 function wrongLetter(){
     stateObejct.decrementCurrentLives();
-    currentLivesContainer.innerHTML = stateObejct.getCurrentLives();
+    $currentLivesContainer.text = stateObejct.getCurrentLives();
             
     //Draw line
-    var line = document.getElementById("l"+stateObejct.getNextLine());
-    line.style.visibility ="visible";
+    var $line = $("#l"+stateObejct.getNextLine());
+    $line.attr("visibility", "visible");
     stateObejct.incrementNexLine();
 
     if (stateObejct.getCurrentLives() == 0){
@@ -275,12 +274,12 @@ function wrongLetter(){
 
 function rightLetter(selectedChar, indexOfCharacter){
     stateObejct.incrementCharCount();
-    var wordContainerElements = wordContainer.children;
-    wordContainerElements[indexOfCharacter].innerHTML = selectedChar;
+    var $wordContainerElements = $wordContainer.children();
+    $wordContainerElements.eq(indexOfCharacter).html(selectedChar);
     var word = stateObejct.getWord();
-    for (var i = indexOfCharacter+1; i < wordContainerElements.length; i++){
+    for (var i = indexOfCharacter+1; i < $wordContainerElements.length; i++){
         if(word[i] == selectedChar){
-            wordContainerElements[i].innerHTML = selectedChar;
+            $wordContainerElements.eq(i).html(selectedChar);
             stateObejct.incrementCharCount();
         }
     }
@@ -290,7 +289,6 @@ function rightLetter(selectedChar, indexOfCharacter){
 }
 
 function endGame(message){
-    console.log(message);
     alert(message);
     stateObejct.setGameFinished(true);
 }
@@ -320,10 +318,10 @@ function updateLang(){
 }
 
 function updateText(){
-    title.innerHTML = titlesArray[language];
-    instructions.innerHTML = instructionsArray[language];
-    disableOption.innerHTML = askConfirmText[language];
-    newGameButton.innerHTML = newGameButtonText[language];
+    $title.html(titlesArray[language]);
+    $instructions.html(instructionsArray[language]);
+    $disableOption.html(askConfirmText[language]);
+    $newGameButton.html(newGameButtonText[language]);
 }
 
 function resetScore(){ 
@@ -331,25 +329,26 @@ function resetScore(){
     hideHangmanLines();
     stateObejct.resetNexLine();
     stateObejct.resetCurrentLives();
-    currentLivesContainer.innerHTML = stateObejct.getInitialLives();
+    $currentLivesContainer.text = stateObejct.getInitialLives();
     if (stateObejct.getWord() != null) activeButtons();
     stateObejct.resetSelectedChars();
     stateObejct.setGameFinished(false);
 }
 
 function activeButtons(){
-    var letters = alphabetContainer.children;
-    for (var i = 0; i < letters.length; i++){
-        letters[i].removeAttribute("disabled");
-    }
+    var $letters = $alphabetContainer.children();
+    var i = 0;
+    $letters.each(function(){
+        $letters.eq(i++).removeAttr("disabled");
+    });
 }
 
 function hideHangmanLines(){
     var nextLine = stateObejct.getNextLine();
     if (nextLine > 1){
         for(var i = 1; i < nextLine; i++){
-            var line = document.getElementById("l"+i);
-            line.style.visibility ="hidden";
+            var $line = $("#l"+i);
+            $line.attr("visibility", "hidden");
         }
     }
 }
@@ -365,9 +364,9 @@ function changeLanguage(event){
             language = languageIndex;
             refreshLanguage();
             var initialConfirmation = stateObejct.getAskConfirmation();
-            stateObejct.setAskConfirmation (false);
+            stateObejct.setAskConfirmation(false);
             newGame();
-            stateObejct.setAskConfirmation (initialConfirmation);
+            stateObejct.setAskConfirmation(initialConfirmation);
         }
     }
 }
@@ -379,9 +378,7 @@ function newGame() {
     
     if (stateObejct.getResetFlag()) {
         //Delete previous word elements
-        while (wordContainer.firstChild) {
-            wordContainer.removeChild(wordContainer.firstChild);
-        }
+        $wordContainer.empty();
         
         //Get the new word
         var randomIndex = Math.floor((Math.random() * countries[language].length));
@@ -397,19 +394,18 @@ function newGame() {
 }
 
 function createHiddenWord(word){
-    var character;
+    var $character;
     var wordText = "_";
-    var word = stateObejct.getWord();
     if (word.length > 0){
         for (var i in word){
-            character = document.createElement('span');
-            character.className = "character";
+            $character = $('<span>');
+            $character.addClass("character");
             if (word[i] == ' ' || word[i] == '-') {
-                character.innerHTML = word[i];
+                $character.html (word[i]);
                 stateObejct.incrementCharCount();
             } else
-                character.innerHTML = wordText;
-            wordContainer.appendChild(character);
+                $character.html(wordText);
+            $wordContainer.append($character);
         }
     }
     console.log(word);
