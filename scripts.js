@@ -372,39 +372,110 @@ function changeLanguage(event){
 }
 
 function newGame() {
-    if (stateObejct.getAskConfirmation()){
+    if (stateObejct.getAskConfirmation()) {
         checkConfirmation();
     }
-    
+
     if (stateObejct.getResetFlag()) {
         //Delete previous word elements
         $wordContainer.empty();
-        
+        stateObejct.setWord(null);
+
         //Get the new word
-        var randomIndex = Math.floor((Math.random() * countries[language].length));
-        var word = countries[language][randomIndex].toUpperCase();
-        stateObejct.setWord(word);
+        generateMovie();
         stateObejct.resetCharCount();
-        createHiddenWord(word);
-               
+
         //Reset score
         resetScore();
     }
 
 }
 
+//http://omdbapi.com/?t=hercules
+function generateMovie() {
+    //Add
+    var index = (Math.floor(Math.random() * alphabets[language].length));
+    var character = alphabets[language][index];
+    var pages = Math.floor(Math.random() * 100 + 1);
+    
+    console.log("character: "+character);
+    console.log("page: "+pages);
+
+    $.getJSON("http://www.omdbapi.com/?s=" + character + "&type=movie&page=" + pages).then(function (data) {
+        if (data.Response == "True") {
+            console.log(data);
+
+            var movie = data.Search[Math.floor(Math.random() * data.Search.length)];
+
+            var title = movie.Title;
+            var id = movie.imdbID;
+
+            console.log(title);
+            console.log(id);
+            stateObejct.setWord(title.toUpperCase());
+        } else {
+            generateMovie();
+        }
+    }).then(function() {createHiddenWord(stateObejct.getWord())});
+    
+    /*
+    //Another way using a keyword
+    var keyWord;
+    //This page generates a random word: http://www.setgetgo.com/randomword/get.php
+    $.get("http://www.setgetgo.com/randomword/get.php").then(function (wordResponse){
+        keyWord = wordResponse;
+        console.log(keyWord);
+    }).then(function(){$.getJSON("http://www.omdbapi.com/?s=" + keyWord + "&type=movie").then(function (data) {
+        if (data.Response == "True") {
+            console.log(data);
+
+            var movie = data.Search[Math.floor(Math.random() * data.Search.length)];
+
+            var title = movie.Title;
+            var id = movie.imdbID;
+
+            console.log(title);
+            console.log(id);
+            stateObejct.setWord(title.toUpperCase());
+        } else {
+            generateMovie();
+        }
+    }).then(function() {createHiddenWord(stateObejct.getWord())})});
+    */
+}
+
+//Not used yet: 
+function generateMovieFromAWord(keyword, year){
+    $.getJSON("http://www.omdbapi.com/?s=" + keyword + "&type=movie&y="+year).then(function (data) {
+        if (data.Response == "True") {
+            console.log(data);
+
+            var movie = data.Search[0];
+            var title = movie.Title;
+            var id = movie.imdbID;
+
+            console.log(title);
+            console.log(id);
+            stateObejct.setWord(title.toUpperCase());
+        } else {
+            console.log("Movie not found");
+        }
+    }).then(function() {
+        if (stateObejct.getWord() != null) createHiddenWord(stateObejct.getWord())
+    });
+}
+
 function createHiddenWord(word){
     var $character;
-    var wordText = "_";
     if (word.length > 0){
         for (var i in word){
             $character = $('<span>');
             $character.addClass("character");
-            if (word[i] == ' ' || word[i] == '-') {
+            if (alphabets[language].indexOf(word[i]) == -1){
                 $character.html (word[i]);
                 stateObejct.incrementCharCount();
             } else
-                $character.html(wordText);
+                $character.html("_");
             $wordContainer.append($character);
         }
     }
