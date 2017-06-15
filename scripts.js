@@ -401,7 +401,7 @@ function generateMovie() {
     console.log("character: "+character);
     console.log("page: "+pages);
 
-    $.getJSON("http://www.omdbapi.com/?apikey=3370463f&s=" + character + "&type=movie&page=" + pages).then(function (data) {
+    $.getJSON("https://www.omdbapi.com/?apikey=3370463f&s=" + character + "&type=movie&page=" + pages).then(function (data) {
         if (data.Response == "True") {
             console.log(data);
 
